@@ -3,8 +3,8 @@ require 'rack/rewrite'
 require 'unicorn'
 
 use Rack::Rewrite do
-  rewrite '/download', '/'
-  rewrite '/download_stuff', '/'
+  r301 '/download', '/'
+  r302 '/download_stuff', '/'
 end
 
 

@@ -5,6 +5,7 @@ require 'unicorn'
 use Rack::Rewrite do
   r301 '/download', '/'
   r302 '/download_stuff', '/'
+  r301 %r{/regexp_test/(\w*)},    '/?$1'
 end
 
 

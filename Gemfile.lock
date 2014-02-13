@@ -3,7 +3,6 @@ GEM
   specs:
     kgio (2.9.1)
     rack (1.5.2)
-    rack-rewrite (1.5.0)
     raindrops (0.12.0)
     unicorn (4.8.2)
       kgio (~> 2.6)
@@ -15,5 +14,4 @@ PLATFORMS
 
 DEPENDENCIES
   rack
-  rack-rewrite
   unicorn

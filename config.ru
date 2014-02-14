@@ -1,18 +1,16 @@
 require 'rack'
 require 'unicorn'
+require 'redis'
+
+redis = Redis.new(:host => "127.0.0.1", :port => 6379)
+redis.set('/casa', 'home')
 
 REDIRECT_MESSAGE = 'Redirecting now.'
 
 app = proc do |env|
-  case env['REQUEST_PATH']
+  value = redis.get(env['REQUEST_PATH'])
 
-  when '/download'
-    [301, { 'Content-Type' => 'text/html', 'Location' => '/?from=download'}, [REDIRECT_MESSAGE]]
-
-  when '/hello'
-    [301, { 'Content-Type' => 'text/html', 'Location' => '/?from=hello'}, [REDIRECT_MESSAGE]]
-
-  when '/'
+  if value.nil? || value == '/' 
     message = <<EOF
     <h1>Fake redirect landing page</h1>
     <p>Lucky you, I could find your stuff!</p>
@@ -20,14 +18,8 @@ app = proc do |env|
     <pre>#{env}</pre>
 EOF
     [200, { 'Content-Type' => 'text/html' }, [message]]
-
   else
-    message = <<EOF
-    <h1>Fallback</h1>
-    <p>I couldn't find your stuff</p>
-    <pre>#{env}</pre>
-EOF
-    [200, { 'Content-Type' => 'text/html' }, [message]]
+    [301, { 'Content-Type' => 'text/html', 'Location' => "/?go_to=#{value}"}, [REDIRECT_MESSAGE]]
   end
 end
 run app

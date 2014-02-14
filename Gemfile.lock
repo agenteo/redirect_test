@@ -4,6 +4,7 @@ GEM
     kgio (2.9.1)
     rack (1.5.2)
     raindrops (0.12.0)
+    redis (3.0.7)
     unicorn (4.8.2)
       kgio (~> 2.6)
       rack
@@ -14,4 +15,5 @@ PLATFORMS
 
 DEPENDENCIES
   rack
+  redis
   unicorn
